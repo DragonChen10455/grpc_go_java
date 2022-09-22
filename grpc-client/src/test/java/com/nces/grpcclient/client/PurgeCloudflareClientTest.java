@@ -12,13 +12,20 @@ class PurgeCloudflareClientTest {
     void purgeCloudflare() {
         PurgeCloudflareClient client = new PurgeCloudflareClient();
         client.init();
+        // change your own apiKey
         String apiKey = "apiKey";
+        // change your own apiEmail
         String apiEmail = "apiEmail";
-        String zoneName = "rhyuheg.site";
+        // change your own zoneId
+        String zoneId = "zoneId";
         String[] purgeList = {"https://www.rhyuheg.site", "https://www.rhyuheg2.site/foo"};
-        if(client.purgeCloudflare(apiKey, apiEmail, zoneName, purgeList)) {
-            System.out.println(Arrays.toString(purgeList) + " under the " + zoneName + " purge success");
+        if(client.purgeCloudflare(apiKey, apiEmail, zoneId, purgeList)) {
+            System.out.println(Arrays.toString(purgeList) + " under the " + zoneId + " purge success");
         }
         else System.out.println("purge fail");
+//        if(client.purgeCloudflareEverything(apiKey, apiEmail, zoneId)) {
+//            System.out.println(zoneId + " purgeEverything success");
+//        }
+//        else System.out.println("purgeEverything fail");
     }
 }

@@ -2,9 +2,7 @@ package com.nces.grpcclient.client;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
-import io.grpc.cloudflare.cache.purge.PurgeCloudflareGrpc;
-import io.grpc.cloudflare.cache.purge.PurgeReplyCloudflare;
-import io.grpc.cloudflare.cache.purge.PurgeRequestCloudflare;
+import io.grpc.cloudflare.cache.purge.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +13,7 @@ import java.util.Arrays;
 @Slf4j
 public class PurgeCloudflareClient {
     /**
-     * 阻塞stub
+     * BlockingStub
      */
     private PurgeCloudflareGrpc.PurgeCloudflareBlockingStub serviceBl;
 
@@ -25,13 +23,21 @@ public class PurgeCloudflareClient {
         serviceBl = PurgeCloudflareGrpc.newBlockingStub(managedChannel);
     }
 
-    public Boolean purgeCloudflare(String apiKey, String apiEmail, String zoneName, String[] purgeList){
+    public Boolean purgeCloudflare(String apiKey, String apiEmail, String zoneId, String[] purgeList){
         PurgeRequestCloudflare request = PurgeRequestCloudflare.newBuilder()
                 .setApiKey(apiKey)
                 .setApiEmail(apiEmail)
-                .setZoneName(zoneName)
+                .setZoneId(zoneId)
                 .addAllPurgeList(Arrays.asList(purgeList)).build();
         PurgeReplyCloudflare reply = serviceBl.purgeCloudflare(request);
+        return reply.getResult();
+    }
+    public Boolean purgeCloudflareEverything(String apiKey, String apiEmail, String zoneId){
+        PurgeRequestCloudflareEverything request = PurgeRequestCloudflareEverything.newBuilder()
+                .setApiKey(apiKey)
+                .setApiEmail(apiEmail)
+                .setZoneId(zoneId).build();
+        PurgeReplyCloudflare reply = serviceBl.purgeCloudflareEverything(request);
         return reply.getResult();
     }
 }
