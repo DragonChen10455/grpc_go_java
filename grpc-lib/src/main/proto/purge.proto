@@ -13,8 +13,6 @@ service PurgeCloudflare {
   rpc PurgeCloudflareEverything (PurgeRequestCloudflareEverything) returns (PurgeReplyCloudflare) {}
 }
 
-// The request message containing the user's name.
-
 message PurgeRequestCloudflare {
   string apiKey = 1;
   string apiEmail = 2;
